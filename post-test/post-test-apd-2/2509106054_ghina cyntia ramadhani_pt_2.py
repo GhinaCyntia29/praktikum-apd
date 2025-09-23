@@ -1,5 +1,5 @@
 suhu=[27,33,46,55,67,92]
-      
+
 fahrenheit1=(suhu[0]*9/5)+32
 fahrenheit2=(suhu[1]*9/5)+32
 kelvin1=suhu[2]+273.15

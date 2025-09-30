@@ -117,35 +117,20 @@ if input_username == username_benar and input_password == password_benar:
         print ("pilih mata uang yang ingin dikonversi")
         print ("1. rupiah ke dollar")
         print ("2. dollar ke rupiah")
-        print ("3. rupiah ke won")
-        print ("4. won ke rupiah")
-        print ("5. rupiah ke riyal")
-        print ("6. riyal ke rupiah")
+        print ("3. dollar ke won")
         pilihan = input ("masukkan pilihan (1/2/3/4/5/6): ")
         if pilihan == "1":
             rupiah = float(input("masukkan jumlah dalam rupiah: "))
-            dollar = rupiah / 15000  #asumsi 1 dollar = 15000 rupiah
+            dollar = rupiah / 15000
             print(f"{rupiah} rupiah = {dollar} dollar")
         elif pilihan == "2":
             dollar = float(input("masukkan jumlah dalam dollar: "))
-            rupiah = dollar * 15000  #asumsi 1 dollar = 15000 rupiah
+            rupiah = dollar * 15000
             print(f"{dollar} dollar = {rupiah} rupiah")
         elif pilihan == "3":
-            rupiah = float(input("masukkan jumlah dalam rupiah: "))
-            won = rupiah / 12  #asumsi 1 won = 12 rupiah
-            print(f"{rupiah} rupiah = {won} won")
-        elif pilihan == "4":
-            won = float(input("masukkan jumlah dalam won: "))
-            rupiah = won * 12  #asumsi 1 won = 12 rupiah
-            print(f"{won} won = {rupiah} rupiah")
-        elif pilihan == "5":
-            rupiah = float(input("masukkan jumlah dalam rupiah: "))
-            riyal = rupiah / 4000  #asumsi 1 riyal = 4000 rupiah
-            print(f"{rupiah} rupiah = {riyal} riyal")
-        elif pilihan == "6":
-            riyal = float(input("masukkan jumlah dalam riyal: "))
-            rupiah = riyal * 4000  #asumsi 1 riyal = 4000 rupiah
-            print(f"{riyal} riyal = {rupiah} rupiah")
+            dollar = float(input("masukkan jumlah dalam dollar: "))
+            won = dollar * 1300
+            print(f"{dollar} dollar = {won} won")
         else:
             print("pilihan tidak valid")
     else:

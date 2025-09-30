@@ -1,0 +1,160 @@
+#login
+print ("silahkan login terlebih dahulu")
+username_benar = "ghina"
+password_benar = "054"
+input_username = input ("masukkan username: ")
+input_password = input ("masukkan password: ")
+
+#cek username dan password  
+if input_username == username_benar and input_password == password_benar:
+    print ("login berhasil")
+
+#kalkulator multifungsi (hanya bisa digunakan jika login berhasil)
+    print ("selamat datang di kalkulator multifungsi")
+    print ("pilih jenis konversi yang ingin dilakukan:")
+    print ("1. konversi panjang")
+    print ("2. konversi massa")
+    print ("3. konversi suhu")
+    print ("4. konversi waktu")
+    print ("5. konversi mata uang")
+    pilihan_konversi = input ("masukkan pilihan (1/2/3/4/5): ")
+
+    if pilihan_konversi == "1": 
+        print ("selamat datang di konversi panjang")
+        print ("pilih satuan panjang yang ingin dikonversi:")
+        print ("1. kaki (feet) ke meter")
+        print ("2. kilometer ke meter")
+        print ("3. centimeter ke meter")
+        pilihan = input ("masukkan pilihan (1/2/3): ")
+        if pilihan == "1":
+            feet = float(input("masukkan panjang dalam kaki (feet): "))
+            meter = feet * 0.3048
+            print(f"{feet} kaki (feet) = {meter} meter")
+        elif pilihan == "2":
+            kilometer = float(input("masukkan panjang dalam kilometer: "))
+            meter = kilometer * 1000
+            print(f"{kilometer} kilometer = {meter} meter")
+        elif pilihan == "3":
+            centimeter = float(input("masukkan panjang dalam centimeter: "))
+            meter = centimeter / 100
+            print(f"{centimeter} centimeter = {meter} meter")
+        else:
+            print("pilihan tidak valid")
+
+    elif pilihan_konversi == "2":
+        print ("selamat datang di konversi massa")
+        print ("pilih satuan massa yang ingin dikonversi:")
+        print ("1. pound ke kilogram")
+        print ("2. ton ke kilogram")
+        print ("3. gram ke kilogram")
+        print ("4. miligram ke kilogram")
+        print ("5. ons ke kilogram")
+        pilihan = input ("masukkan pilihan (1/2/3/4/5): ")
+        if pilihan == "1":
+            pound = float(input("masukkan massa dalam pound: "))
+            kilogram = pound * 0.453592
+            print(f"{pound} pound = {kilogram} kilogram")
+        elif pilihan == "2":
+            ton = float(input("masukkan massa dalam ton: "))
+            kilogram = ton * 1000
+            print(f"{ton} ton = {kilogram} kilogram")
+        elif pilihan == "3":
+            gram = float(input("masukkan massa dalam gram: "))
+            kilogram = gram / 1000
+            print(f"{gram} gram = {kilogram} kilogram")
+        elif pilihan == "4":    
+            miligram = float(input("masukkan massa dalam miligram: "))
+            kilogram = miligram / 1_000_000
+            print(f"{miligram} miligram = {kilogram} kilogram")
+        elif pilihan == "5":
+            ons = float(input("masukkan massa dalam ons: "))
+            kilogram = ons * 0.1
+            print(f"{ons} ons = {kilogram} kilogram")
+        else:
+            print("pilihan tidak valid")
+
+    elif pilihan_konversi == "3":
+        print ("selamat datang di konversi suhu")
+        print ("pilih satuan suhu yang ingin dikonversi:")
+        print ("1. celcius ke kelvin")
+        print ("2. fahrenheit ke kelvin")
+        print ("3. reamur ke kelvin")
+        pilihan = input ("masukkan pilihan (1/2/3): ")
+        if pilihan == "1":
+            celcius = float(input("masukkan suhu dalam celcius: "))
+            kelvin = celcius + 273.15
+            print(f"{celcius} celcius = {kelvin} kelvin")
+        elif pilihan == "2":
+            fahrenheit = float(input("masukkan suhu dalam fahrenheit: "))
+            kelvin = (fahrenheit - 32) * 5/9 + 273.15
+            print(f"{fahrenheit} fahrenheit = {kelvin} kelvin")
+        elif pilihan == "3":
+            reamur = float(input("masukkan suhu dalam reamur: "))
+            kelvin = reamur * 5/4 + 273.15
+            print(f"{reamur} reamur = {kelvin} kelvin")
+        else:
+            print("pilihan tidak valid")
+
+    elif pilihan_konversi == "4":
+        print ("selamat datang di konversi waktu")
+        print ("pilih satuan waktu yang ingin dikonversi:")
+        print ("1. menit ke detik")
+        print ("2. jam ke detik")
+        pilihan = input ("masukkan pilihan (1/2): ")
+        if pilihan == "1":
+            menit = float(input("masukkan waktu dalam menit: "))
+            detik = menit * 60
+            print(f"{menit} menit = {detik} detik")
+        elif pilihan == "2":
+            jam = float(input("masukkan waktu dalam jam: "))
+            detik = jam * 3600
+            print(f"{jam} jam = {detik} detik")
+        else:
+            print("pilihan tidak valid")
+
+    elif pilihan_konversi == "5":
+        print ("selamat datang di konversi mata uang")
+        print ("pilih mata uang yang ingin dikonversi")
+        print ("1. rupiah ke dollar")
+        print ("2. dollar ke rupiah")
+        print ("3. rupiah ke won")
+        print ("4. won ke rupiah")
+        print ("5. rupiah ke riyal")
+        print ("6. riyal ke rupiah")
+        pilihan = input ("masukkan pilihan (1/2/3/4/5/6): ")
+        if pilihan == "1":
+            rupiah = float(input("masukkan jumlah dalam rupiah: "))
+            dollar = rupiah / 15000  #asumsi 1 dollar = 15000 rupiah
+            print(f"{rupiah} rupiah = {dollar} dollar")
+        elif pilihan == "2":
+            dollar = float(input("masukkan jumlah dalam dollar: "))
+            rupiah = dollar * 15000  #asumsi 1 dollar = 15000 rupiah
+            print(f"{dollar} dollar = {rupiah} rupiah")
+        elif pilihan == "3":
+            rupiah = float(input("masukkan jumlah dalam rupiah: "))
+            won = rupiah / 12  #asumsi 1 won = 12 rupiah
+            print(f"{rupiah} rupiah = {won} won")
+        elif pilihan == "4":
+            won = float(input("masukkan jumlah dalam won: "))
+            rupiah = won * 12  #asumsi 1 won = 12 rupiah
+            print(f"{won} won = {rupiah} rupiah")
+        elif pilihan == "5":
+            rupiah = float(input("masukkan jumlah dalam rupiah: "))
+            riyal = rupiah / 4000  #asumsi 1 riyal = 4000 rupiah
+            print(f"{rupiah} rupiah = {riyal} riyal")
+        elif pilihan == "6":
+            riyal = float(input("masukkan jumlah dalam riyal: "))
+            rupiah = riyal * 4000  #asumsi 1 riyal = 4000 rupiah
+            print(f"{riyal} riyal = {rupiah} rupiah")
+        else:
+            print("pilihan tidak valid")
+    else:
+        print("pilihan kategori konversi tidak valid")
+
+#jika login gagal (diluar dari kalkulator multifungsi)
+elif  input_username != username_benar and input_password == password_benar:
+    print ("username salah, silahkan coba lagi")
+elif  input_username == username_benar and input_password != password_benar:
+    print ("password salah, silahkan coba lagi" )
+else:
+    print ("username dan password salah")

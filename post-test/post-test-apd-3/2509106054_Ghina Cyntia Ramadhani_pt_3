@@ -117,20 +117,35 @@ if input_username == username_benar and input_password == password_benar:
         print ("pilih mata uang yang ingin dikonversi")
         print ("1. rupiah ke dollar")
         print ("2. dollar ke rupiah")
-        print ("3. dollar ke won")
+        print ("3. rupiah ke won")
+        print ("4. won ke rupiah")
+        print ("5. rupiah ke ringgit")
+        print ("6. ringgit ke rupiah")
         pilihan = input ("masukkan pilihan (1/2/3/4/5/6): ")
         if pilihan == "1":
             rupiah = float(input("masukkan jumlah dalam rupiah: "))
-            dollar = rupiah / 15000
+            dollar = rupiah / 15000 #asumsi 1 dollar = 15000 rupiah
             print(f"{rupiah} rupiah = {dollar} dollar")
         elif pilihan == "2":
             dollar = float(input("masukkan jumlah dalam dollar: "))
-            rupiah = dollar * 15000
+            rupiah = dollar * 15000 #asumsi 1 dollar = 15000 rupiah
             print(f"{dollar} dollar = {rupiah} rupiah")
         elif pilihan == "3":
-            dollar = float(input("masukkan jumlah dalam dollar: "))
-            won = dollar * 1300
-            print(f"{dollar} dollar = {won} won")
+            rupiah = float(input("masukkan jumlah dalam rupiah: "))
+            won = rupiah / 12 #asumsi 1 won = 12 rupiah
+            print(f"{rupiah} rupiah = {won} won")
+        elif pilihan == "4":
+            won = float(input("masukkan jumlah dalam won: "))
+            rupiah = won * 12 #asumsi 1 won = 12 rupiah
+            print(f"{won} won = {rupiah} rupiah")
+        elif pilihan == "5":
+            rupiah = float(input("masukkan jumlah dalam rupiah: "))
+            ringgit = rupiah / 3500 #asumsi 1 ringgit = 3500 rupiah
+            print(f"{rupiah} rupiah = {ringgit} ringgit")
+        elif pilihan == "6":
+            ringgit = float(input("masukkan jumlah dalam ringgit: "))
+            rupiah = ringgit * 3500 #asumsi 1 ringgit = 3500 rupiah
+            print(f"{ringgit} ringgit = {rupiah} rupiah")
         else:
             print("pilihan tidak valid")
     else:

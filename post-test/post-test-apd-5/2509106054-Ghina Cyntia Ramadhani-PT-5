@@ -1,0 +1,222 @@
+import os
+os.system('cls')
+
+#data akun & kamar
+akun = [["ghina","admin054","admin"],["cyntia","pengguna054","pengguna"]]
+reservasi = [] #nama, tipe kamar, tanggal reservasi, durasi menginap
+
+while True:
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print("=== SISTEM RESERVASI KAMAR HOTEL ===")
+    print("1. login sebagai admin")
+    print("2. login sebagai pengguna")
+    pilih = input("selamat datang di sistem reservasi kamar hotel, silahkan pilih menu (admin/pengguna): ")
+
+#login admin
+    if pilih == "admin":
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print("=== LOGIN ADMIN ===")
+        username = input("masukkan username: ")
+        password = input("masukkan password: ")
+        
+        login_sukses = False
+        for user in akun:
+            if username == user[0] and password == user[1]:
+                role = user[2]
+                login_sukses = True
+                break
+                
+        if login_sukses:
+            print("login berhasil sebagai admin")
+            input("tekan enter untuk melanjutkan...")
+
+#menu admin
+    if pilih == "admin":
+        while True:
+            os.system('cls' if os.name == 'nt' else 'clear')
+            print("=== MENU ADMIN ===")
+            print("1. tambah data reservasi (create)")
+            print("2. lihat data reservasi (read)")
+            print("3. ubah data reservasi (update)")
+            print("4. hapus data reservasi (delete)")
+            print("5. cari data reservasi")
+            print("6. filter berdasarkan tanggal")
+            print("7. keluar")
+            pilihan_admin = input("pilih menu (1/2/3/4/5): ")
+
+    #create
+            if pilihan_admin == "1":
+                os.system('cls' if os.name == 'nt' else 'clear')
+                print("=== TAMBAH DATA RESERVASI ===")
+                nama = input("masukkan nama: ")
+                kamar = input("masukkan tipe kamar (single/superior/deluxe): ")
+                tanggal = input("masukkan tanggal reservasi (dd/mm/yyyy): ")
+                durasi = input("masukkan durasi menginap (dalam hari): ")
+
+                #validasi tanggal booking kamar
+                sudah_dibooking = False
+                for r in reservasi:
+                    if kamar == r[1] and tanggal == r[2]:
+                        sudah_dibooking = True
+                        break
+
+                if sudah_dibooking:
+                    print("maaf, kamar sudah dibooking pada tanggal tersebut")
+                    input("tekan enter untuk melanjutkan...")
+
+                else:
+                    reservasi.append([nama, kamar, tanggal, durasi])
+                    print("data reservasi berhasil ditambahkan")
+                    input("tekan enter untuk melanjutkan...")
+
+    #read
+            elif pilihan_admin == "2":
+                os.system('cls' if os.name == 'nt' else 'clear')
+                print("=== DATA RESERVASI ===")
+                if len(reservasi) == 0:
+                    print("belum ada data reservasi")
+                else:
+                    for i, r in enumerate(reservasi):
+                        print(f"{i+1}. Nama: {r[0]}, Tipe Kamar: {r[1]}, Tanggal: {r[2]}, Durasi: {r[3]} hari")
+                        input("tekan enter untuk melanjutkan...")
+
+    #update
+            elif pilihan_admin == "3":
+                os.system('cls' if os.name == 'nt' else 'clear')
+                print("=== UBAH DATA RESERVASI ===")
+                if len(reservasi) == 0:
+                    print("belum ada data reservasi")
+                    input("tekan enter untuk melanjutkan...")
+                else:
+                    for i, r in enumerate(reservasi):
+                        print(f"{i+1}. Nama: {r[0]}, Tipe Kamar: {r[1]}, Tanggal: {r[2]}, Durasi: {r[3]} hari")
+                    index = int(input("masukkan nomor data yang ingin diubah: ")) - 1
+                    if 0 <= index < len(reservasi):
+                        nama = input("masukkan nama baru (kosongkan jika tidak diubah): ")
+                        kamar = input("masukkan tipe kamar baru (kosongkan jika tidak diubah): ")
+                        tanggal = input("masukkan tanggal reservasi baru (kosongkan jika tidak diubah): ")
+                        durasi = input("masukkan durasi menginap baru (kosongkan jika tidak diubah): ")
+                        if nama:
+                            reservasi[index][0] = nama
+                        if kamar:
+                            reservasi[index][1] = kamar
+                        if tanggal:
+                            reservasi[index][2] = tanggal
+                        if durasi:
+                            reservasi[index][3] = durasi
+                        print("data reservasi berhasil diubah")
+                    else:
+                        print("nomor data tidak valid")
+                        input("tekan enter untuk melanjutkan...")
+
+    #delete
+            elif pilihan_admin == "4":
+                os.system('cls' if os.name == 'nt' else 'clear')
+                print("=== HAPUS DATA RESERVASI ===")
+                if len(reservasi) == 0:
+                    print("belum ada data reservasi")
+                    input("tekan enter untuk melanjutkan...")
+                else:
+                    for i, r in enumerate(reservasi):
+                        print(f"{i+1}. Nama: {r[0]}, Tipe Kamar: {r[1]}, Tanggal: {r[2]}, Durasi: {r[3]} hari")
+                    index = int(input("masukkan nomor data yang ingin dihapus: ")) - 1
+                    if 0 <= index < len(reservasi):
+                        reservasi.pop(index)
+                        print("data reservasi berhasil dihapus")
+                    else:
+                        print("nomor data tidak valid")
+                        input("tekan enter untuk melanjutkan...")
+
+    #cari data reservasi
+            elif pilihan_admin == "5":
+                os.system('cls' if os.name == 'nt' else 'clear')
+                print("=== CARI DATA RESERVASI ===")
+                keyword = input("masukkan nama yang ingin dicari: ")
+                hasil = []
+                for r in reservasi:
+                    if keyword in r[0]:
+                        hasil.append(r)
+                print("=== HASIL PENCARIAN ===")
+                if len(hasil) == 0:
+                    print("data tidak ditemukan")
+                else:
+                    for i, r in enumerate(hasil):
+                        print(f"{i+1}. Nama: {r[0]}, Tipe Kamar: {r[1]}, Tanggal: {r[2]}, Durasi: {r[3]} hari")
+                input("tekan enter untuk melanjutkan...")
+
+    #filter berdasarkan tanggal
+            elif pilihan_admin == "6":
+                os.system('cls' if os.name == 'nt' else 'clear')
+                print("=== FILTER DATA RESERVASI BERDASARKAN TANGGAL ===")
+                tanggal_filter = input("masukkan tanggal yang ingin dicari (dd/mm/yyyy): ")
+                hasil = []
+                for r in reservasi:
+                    if tanggal_filter == r[2]:
+                        hasil.append(r)
+                print("=== HASIL FILTERING ===")
+                if len(hasil) == 0:
+                    print("data tidak ditemukan")
+                else:
+                    for i, r in enumerate(hasil):
+                        print(f"{i+1}. Nama: {r[0]}, Tipe Kamar: {r[1]}, Tanggal: {r[2]}, Durasi: {r[3]} hari")
+                input("tekan enter untuk melanjutkan...")
+
+    #keluar
+            elif pilihan_admin == "7":
+                print("keluar dari menu admin")
+                input("tekan enter untuk melanjutkan...")
+                break
+            else:
+                print("pilihan tidak valid")
+                input("tekan enter untuk melanjutkan...")
+
+#login pengguna
+    elif pilih == "pengguna":
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print("=== LOGIN PENGGUNA ===")
+        username = input("masukkan username: ")
+        password = input("masukkan password: ")
+        
+        login_sukses = False
+        for user in akun:
+            if username == user[0] and password == user[1]:
+                role = user[2]
+                login_sukses = True
+                break
+                
+        if login_sukses:
+            print("login berhasil sebagai pengguna")
+            input("tekan enter untuk melanjutkan...")
+
+    else:
+        print("username atau password salah")
+        input("tekan enter untuk melanjutkan...")
+            
+#menu pengguna
+    if pilih =="pengguna":
+        while True:
+            os.system('cls' if os.name == 'nt' else 'clear')
+            print("=== MENU PENGGUNA ===")
+            print("1. lihat data reservasi (read)")
+            print("2. keluar")
+            pilihan_pengguna = input("pilih menu (1/2): ")
+
+    #read
+            if pilihan_pengguna == "1":
+                os.system('cls' if os.name == 'nt' else 'clear')
+                print("=== DATA RESERVASI ===")
+                if len(reservasi) == 0:
+                    print("belum ada data reservasi")
+                else:
+                    for i, r in enumerate(reservasi):
+                        print(f"{i+1}. Nama: {r[0]}, Tipe Kamar: {r[1]}, Tanggal: {r[2]}, Durasi: {r[3]} hari")
+                        input("tekan enter untuk melanjutkan...")
+
+    #keluar
+            elif pilihan_pengguna == "2":
+                print("keluar dari menu pengguna")
+                input("tekan enter untuk melanjutkan...")
+                break
+            else:
+                print("pilihan tidak valid")
+                input("tekan enter untuk melanjutkan...")   

@@ -60,6 +60,7 @@ while True:
 
                     if sudah_dibooking:
                         print("maaf, kamar sudah dibooking pada tanggal tersebut")
+                        input("tekan enter untuk melanjutkan...")
                     else:
                         reservasi[nama] = {
                             "Tipe_Kamar": tipe,
@@ -67,7 +68,7 @@ while True:
                             "Durasi": durasi
                         }
                         print("data reservasi berhasil ditambahkan")
-                    input("tekan enter untuk melanjutkan...")
+                        input("tekan enter untuk melanjutkan...")
 
                 # READ
                 elif pilihan_admin == "2":
@@ -75,12 +76,13 @@ while True:
                     print("=== DATA RESERVASI ===")
                     if len(reservasi) == 0:
                         print("belum ada data reservasi")
+                        input("tekan enter untuk melanjutkan...")
                     else:
                         nomor = 1
                         for key, data in reservasi.items():
                             print(f"{nomor}. Nama: {key}, Tipe Kamar: {data['Tipe_Kamar']}, Tanggal: {data['Tanggal_Reservasi']}, Durasi: {data['Durasi']} hari")
                             nomor += 1
-                    input("tekan enter untuk melanjutkan...")
+                            input("tekan enter untuk melanjutkan...")
 
                 # UPDATE
                 elif pilihan_admin == "3":
@@ -88,6 +90,7 @@ while True:
                     print("=== UBAH DATA RESERVASI ===")
                     if len(reservasi) == 0:
                         print("belum ada data reservasi")
+                        input("tekan enter untuk melanjutkan...")
                     else:
                         nomor = 1
                         keys_list = list(reservasi.keys())
@@ -113,11 +116,13 @@ while True:
                                 if durasi:
                                     reservasi[key_terpilih]['Durasi'] = durasi
                                 print("data reservasi berhasil diubah")
+                                input("tekan enter untuk melanjutkan...")
                             else:
                                 print("nomor data tidak valid")
+                                input("tekan enter untuk melanjutkan...")   
                         else:
                             print("input harus angka!")
-                        input("tekan enter untuk melanjutkan...")
+                            input("tekan enter untuk melanjutkan...")
 
                 # DELETE
                 elif pilihan_admin == "4":
@@ -125,6 +130,7 @@ while True:
                     print("=== HAPUS DATA RESERVASI ===")
                     if len(reservasi) == 0:
                         print("belum ada data reservasi")
+                        input("tekan enter untuk melanjutkan...")
                     else:
                         nomor = 1
                         keys_list = list(reservasi.keys())
@@ -138,12 +144,15 @@ while True:
                             if 0 <= index < len(keys_list):
                                 del reservasi[keys_list[index]]
                                 print("data reservasi berhasil dihapus")
+                                input("tekan enter untuk melanjutkan...")
                             else:
                                 print("nomor data tidak valid")
+                                input("tekan enter untuk melanjutkan...")
                         else:
                             print("input harus angka!")
-                    input("tekan enter untuk melanjutkan...")
-                # CARI DATA RESERVASI (MENU ADMIN 5)
+                            input("tekan enter untuk melanjutkan...")
+                
+                # CARI DATA RESERVASI 
                 elif pilihan_admin == "5":
                     os.system('cls' if os.name == 'nt' else 'clear')
                     print("=== CARI DATA RESERVASI ===")
@@ -154,12 +163,13 @@ while True:
                             hasil.append((key, data))
                     if len(hasil) == 0:
                         print("data tidak ditemukan")
+                        input("tekan enter untuk melanjutkan...")
                     else:
                         for i, (key, data) in enumerate(hasil, 1):
                             print(f"{i}. Nama: {key}, Tipe Kamar: {data['Tipe_Kamar']}, Tanggal: {data['Tanggal_Reservasi']}, Durasi: {data['Durasi']} hari")
-                    input("tekan enter untuk melanjutkan...")
+                            input("tekan enter untuk melanjutkan...")
 
-                # FILTER BERDASARKAN TANGGAL (MENU ADMIN 6)
+                # FILTER BERDASARKAN TANGGAL 
                 elif pilihan_admin == "6":
                     os.system('cls' if os.name == 'nt' else 'clear')
                     print("=== FILTER BERDASARKAN TANGGAL ===")
@@ -170,9 +180,17 @@ while True:
                             hasil.append((key, data))
                     if len(hasil) == 0:
                         print("tidak ada reservasi pada tanggal tersebut")
+                        input("tekan enter untuk melanjutkan...")
                     else:
                         for i, (key, data) in enumerate(hasil, 1):
                             print(f"{i}. Nama: {key}, Tipe Kamar: {data['Tipe_Kamar']}, Durasi: {data['Durasi']} hari")
+                            input("tekan enter untuk melanjutkan...")
+
+                # LOGOUT MENU ADMIN
+                elif pilihan_admin == "7":
+                    break
+                else:
+                    print("pilihan tidak valid")
                     input("tekan enter untuk melanjutkan...")
 
     # LOGIN PENGGUNA
@@ -198,7 +216,7 @@ while True:
                 print("=== MENU PENGGUNA ===")
                 print("1. buat reservasi baru")
                 print("2. lihat reservasi saya")
-                print("3. keluar")
+                print("3. logout")
                 pilihan_user = input("pilih menu (1/2/3): ")
 
                 # CREATE RESERVASI PENGGUNA
@@ -218,6 +236,7 @@ while True:
 
                     if sudah_dibooking:
                         print("maaf, kamar sudah dibooking pada tanggal tersebut")
+                        input("tekan enter untuk melanjutkan...")
                     else:
                         reservasi[nama] = {
                             "Tipe_Kamar": tipe,
@@ -225,7 +244,7 @@ while True:
                             "Durasi": durasi
                         }
                         print("reservasi berhasil dibuat")
-                    input("tekan enter untuk melanjutkan...")
+                        input("tekan enter untuk melanjutkan...")
 
                 # READ RESERVASI PENGGUNA
                 elif pilihan_user == "2":
@@ -239,9 +258,9 @@ while True:
                         print(f"Durasi: {data['Durasi']} hari")
                     else:
                         print("belum ada reservasi")
-                    input("tekan enter untuk melanjutkan...")
+                        input("tekan enter untuk melanjutkan...")
 
-                # KELUAR MENU PENGGUNA
+                # LOGOUT MENU PENGGUNA
                 elif pilihan_user == "3":
                     break
                 else:
@@ -255,16 +274,17 @@ while True:
         username = input("masukkan username baru: ")
         if username in akun:
             print("username sudah ada!")
+            input("tekan enter untuk kembali ke menu utama...")
         else:
             password = input("masukkan password baru: ")
             akun[username] = {"username": username, "password": password, "role": "pengguna"}
             print("registrasi berhasil")
-        input("tekan enter untuk kembali ke menu utama...")
+            input("tekan enter untuk kembali ke menu utama...")
 
     # KELUAR
     elif pilih == "4":
         print("Terima kasih telah menggunakan sistem reservasi!")
         break
     else:
-        print("pilihan salah! masukkan 1/2/3/4")
+        print("pilihan tidak valid! masukkan 1/2/3/4")
         input("tekan enter untuk kembali...")

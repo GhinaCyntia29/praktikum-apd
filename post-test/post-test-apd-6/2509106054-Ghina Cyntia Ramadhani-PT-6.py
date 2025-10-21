@@ -108,7 +108,8 @@ while True:
                                 tanggal = input("masukkan tanggal reservasi baru (kosongkan jika tidak diubah): ")
                                 durasi = input("masukkan durasi menginap baru (kosongkan jika tidak diubah): ")
                                 if nama:
-                                    reservasi[key_terpilih]['Nama'] = nama
+                                    reservasi[nama]=reservasi.pop(key_terpilih)
+                                    key_terpilih = nama
                                 if kamar:
                                     reservasi[key_terpilih]['Tipe_Kamar'] = kamar
                                 if tanggal:
@@ -159,7 +160,7 @@ while True:
                     keyword = input("masukkan nama yang ingin dicari: ")
                     hasil = []
                     for key, data in reservasi.items():
-                        if keyword in key:  # langsung case-sensitive
+                        if keyword in key:  
                             hasil.append((key, data))
                     if len(hasil) == 0:
                         print("data tidak ditemukan")

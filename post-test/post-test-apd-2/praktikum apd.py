@@ -1,281 +1,289 @@
 import os
-os.system('cls')
+os.system('cls' if os.name == 'nt' else 'clear')
 
-kesempatan_login = 3
-daftar_anime = ["Re:Zero Season 3",
-                "Dan Da Dan",
-                "Blue LOck Season 2",
-                "Blue Lock Season 2 ",
-                "Bleach: Thousand-Year Blood War Part 3",
-                "Ranma 1/2",
-                "Dragon Ball Daima",
-                "Tomb Raider: The Legend of Lara Croft",
-                "Arcane Season 2",
-                "Fate/strange Fake",
-                "Beastars Season 3"
-                ]
-batas1 = "="*45
-batas2 = "+"*45
-Login_Admin = True
-Login_User = True
-Pengguna_Baru = []
-Hasil_Donasi = []
+# ===== Variabel Global =====
+akun = {
+    "admin": {"username": "admin", "password": "admin123", "role": "admin"},
+    "pengguna": {"username": "pengguna", "password": "pengguna123", "role": "pengguna"}
+}
+reservasi = {}  
+role = None  
 
-os.system('cls')
-print(batas1)
-print(batas2)
-print(batas1)
-print()
-print("SELAMAT DATANG DI ANIMELIST SEASON 2024".center(45))
-print()
-print(batas1)
-print(batas2)
-print(batas1)
-print()
-input("\nTekan Enter untuk memulai LOGIN!!!")
-print()
-print(batas1)
+# ===== Prosedur =====
+def clear():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
+def pause():
+    input("tekan enter untuk melanjutkan...")
 
-while kesempatan_login >0:
-    os.system('cls')
-    print(batas1)
-    print()
-    print("ANDA INGIN LOGIN SEBAGAI".center(45),"\n")
-    print(batas1)
-    print("""
-    1. Pengguna Biasa
-    2. Sebagai Admin 
-    3. Daftar Sebagai Pengguna Baru""")
-    print()
-    menu = input("Pilihan Anda (1/2/3)\t : ")
-    os.system('cls')
+# ===== Fungsi Tanpa Parameter =====
+def total_data_reservasi():
+    return len(reservasi)
 
-    if menu == "1":
-        print(batas1)
-        print("LOGIN SEBAGAI PENGGUNA BIASA".center(45))
-        print(batas1)
-        usn = input("\nUsername : ")
-        pas = input("\nPassword : ")
-        if usn in Pengguna_Baru and pas in Pengguna_Baru:
-            print()
-            print(batas2)
-            print("SELAMAT ANDA BERHASIL LOGIN".center(45))
-            print(batas2)
-            input("\nEnter untuk melanjutkan ...")
-            Login_User = True
-            Login_Admin = False
+# ===== Fungsi Dengan Parameter =====
+def cek_kamar_dipesan(tipe, tanggal):
+    for data in reservasi.values():
+        if data["Tipe_Kamar"] == tipe and data["Tanggal_Reservasi"] == tanggal:
+            return True
+    return False
+
+def tambah_reservasi(nama, tipe, tanggal, durasi):
+    reservasi[nama] = {
+        "Tipe_Kamar": tipe,
+        "Tanggal_Reservasi": tanggal,
+        "Durasi": durasi
+    }
+
+# ========= LOGIN ADMIN REKURSIF DI SINI ✅ =========
+def login_admin():
+    clear()
+    print("=== LOGIN ADMIN ===")
+    username = input("masukkan username: ")
+    password = input("masukkan password: ")
+
+    if username not in akun or akun[username]["password"] != password:
+        print("Username atau password salah!")
+        pause()
+        return login_admin()  # REKURSIF ❗
+
+    if akun[username]["role"] != "admin":
+        print("Anda bukan admin!")
+        pause()
+        return login_admin()  # REKURSIF ❗
+
+    # Sukses login → Masuk menu admin
+    while True:
+        clear()
+        print("=== MENU ADMIN ===")
+        print("1. tambah data reservasi (create)")
+        print("2. lihat data reservasi (read)")
+        print("3. ubah data reservasi (update)")
+        print("4. hapus data reservasi (delete)")
+        print("5. cari data reservasi")
+        print("6. filter berdasarkan tanggal")
+        print("7. total data reservasi (rekursif)")
+        print("8. logout")
+        pilihan_admin = input("pilih menu (1/2/3/4/5/6/7/8): ")
+
+        if pilihan_admin == "1":
+            clear()
+            print("=== TAMBAH DATA RESERVASI ===")
+            nama = input("masukkan nama: ")
+            tipe = input("masukkan tipe kamar (single/superior/deluxe): ")
+            tanggal = input("masukkan tanggal reservasi (dd/mm/yyyy): ")
+            durasi = input("masukkan durasi menginap (dalam hari): ")
+
+            if cek_kamar_dipesan(tipe, tanggal):
+                print("maaf, kamar sudah dibooking pada tanggal tersebut")
+            else:
+                tambah_reservasi(nama, tipe, tanggal, durasi)
+                print("data reservasi berhasil ditambahkan")
+            pause()
+
+        elif pilihan_admin == "2":
+            clear()
+            print("=== DATA RESERVASI ===")
+            if len(reservasi) == 0:
+                print("belum ada data reservasi")
+            else:
+                nomor = 1
+                for key, data in reservasi.items():
+                    print(f"{nomor}. Nama: {key}, Tipe Kamar: {data['Tipe_Kamar']}, Tanggal: {data['Tanggal_Reservasi']}, Durasi: {data['Durasi']} hari")
+                    nomor += 1
+            pause()
+
+        elif pilihan_admin == "3":
+            clear()
+            print("=== UBAH DATA RESERVASI ===")
+            if len(reservasi) == 0:
+                print("belum ada data reservasi")
+            else:
+                nomor = 1
+                keys_list = list(reservasi.keys())
+                for key in keys_list:
+                    data = reservasi[key]
+                    print(f"{nomor}. Nama: {key}, Tipe Kamar: {data['Tipe_Kamar']}, Tanggal: {data['Tanggal_Reservasi']}, Durasi: {data['Durasi']} hari")
+                    nomor += 1
+
+                index_input = input("masukkan nomor data yang ingin diubah: ")
+                if index_input.isdigit():
+                    index = int(index_input) - 1
+                    if 0 <= index < len(keys_list):
+                        key_terpilih = keys_list[index]
+                        nama = input("masukkan nama baru (kosongkan jika tidak diubah): ")
+                        kamar = input("masukkan tipe kamar baru (kosongkan jika tidak diubah): ")
+                        tanggal = input("masukkan tanggal reservasi baru (kosongkan jika tidak diubah): ")
+                        durasi = input("masukkan durasi menginap baru (kosongkan jika tidak diubah): ")
+                        if nama:
+                            reservasi[nama] = reservasi.pop(key_terpilih)
+                            key_terpilih = nama
+                        if kamar:
+                            reservasi[key_terpilih]['Tipe_Kamar'] = kamar
+                        if tanggal:
+                            reservasi[key_terpilih]['Tanggal_Reservasi'] = tanggal
+                        if durasi:
+                            reservasi[key_terpilih]['Durasi'] = durasi
+                        print("data reservasi berhasil diubah")
+                    else:
+                        print("nomor data tidak valid")
+                else:
+                    print("input harus angka!")
+            pause()
+
+        elif pilihan_admin == "4":
+            clear()
+            print("=== HAPUS DATA RESERVASI ===")
+            if len(reservasi) == 0:
+                print("belum ada data reservasi")
+            else:
+                nomor = 1
+                keys_list = list(reservasi.keys())
+                for key in keys_list:
+                    data = reservasi[key]
+                    print(f"{nomor}. Nama: {key}, Tipe Kamar: {data['Tipe_Kamar']}, Tanggal: {data['Tanggal_Reservasi']}, Durasi: {data['Durasi']} hari")
+                    nomor += 1
+                
+                index_input = input("masukkan nomor data yang ingin dihapus: ")
+                if index_input.isdigit():
+                    index = int(index_input) - 1
+                    if 0 <= index < len(keys_list):
+                        del reservasi[keys_list[index]]
+                        print("data reservasi berhasil dihapus")
+                    else:
+                        print("nomor data tidak valid")
+                else:
+                    print("input harus angka!")
+            pause()
+
+        elif pilihan_admin == "5":
+            clear()
+            print("=== CARI DATA RESERVASI ===")
+            keyword = input("masukkan nama yang ingin dicari: ")
+            hasil = []
+            for key, data in reservasi.items():
+                if keyword in key:
+                    hasil.append((key, data))
+            if len(hasil) == 0:
+                print("data tidak ditemukan")
+            else:
+                for i, (key, data) in enumerate(hasil, 1):
+                    print(f"{i}. Nama: {key}, Tipe Kamar: {data['Tipe_Kamar']}, Tanggal: {data['Tanggal_Reservasi']}, Durasi: {data['Durasi']} hari")
+            pause()
+
+        elif pilihan_admin == "6":
+            clear()
+            print("=== FILTER BERDASARKAN TANGGAL ===")
+            tanggal_filter = input("masukkan tanggal yang ingin dicari (dd/mm/yyyy): ")
+            hasil = []
+            for key, data in reservasi.items():
+                if data["Tanggal_Reservasi"] == tanggal_filter:
+                    hasil.append((key, data))
+            if len(hasil) == 0:
+                print("tidak ada reservasi pada tanggal tersebut")
+            else:
+                for i, (key, data) in enumerate(hasil, 1):
+                    print(f"{i}. Nama: {key}, Tipe Kamar: {data['Tipe_Kamar']}, Durasi: {data['Durasi']} hari")
+            pause()
+
+        elif pilihan_admin == "7":
+            total = total_data_reservasi()
+            print(f"Total reservasi: {total}")
+            pause()
+
+        elif pilihan_admin == "8":
             break
         else:
-            print()
-            kesempatan_login -=1
-            if kesempatan_login == 0:
-                print()
-                print(batas2)
-                print("KESEMPATAN LOGIN TELAH HABIS!!!") 
-                print(batas2)
-                input("\nKetuk Enter untuk meankhiri sesi ...")
-                Login_User = False
-                Login_Admin = False
-                break
-            else:
-                print(f"""
-    Login Gagal, anda masih memiliki {kesempatan_login} 
-    kesempatan untuk mencoba'""")
-                input("\nKetuk Enter untuk login ulang ...")
+            pause()
 
-    elif menu == "2":
-        print(batas1)
-        print("LOGIN SEBAGAI ADMIN".center(45))
-        print(batas1)
-        usn = input("\nUsername : ")
-        pas = input("\nPassword : ")
-        if usn == "wibu" and pas == "anime":
-            print()
-            print(batas2)
-            print("SELAMAT SEPUH BERHASIL LOGIN".center(45))
-            print(batas2)
-            input("\nEnter untuk melanjutkan ...") 
-            Login_Admin = True
-            Login_User = False   
-            break
+# ================= PROGRAM UTAMA =================
+while True:
+    clear()
+    print("=== SISTEM RESERVASI KAMAR HOTEL ===")
+    print("1. login sebagai admin")
+    print("2. login sebagai pengguna")
+    print("3. register")
+    print("4. keluar")
+    pilih = input("silahkan pilih menu (1/2/3/4): ")
+
+    if pilih == "1":
+        login_admin()  # ✅ sekarang rekursif
+
+    elif pilih == "2":
+        # (LOGIN PENGGUNA PERSIS SAMA TIDAK AKU SENTUH)
+        clear()
+        print("=== LOGIN PENGGUNA ===")
+        username = input("masukkan username: ")
+        password = input("masukkan password: ")
+
+        if username == "" or password == "":
+            print("Username atau password tidak boleh kosong!")
+            pause()
+            continue
+
+        if username in akun and akun[username]["password"] == password and akun[username]["role"] == "pengguna":
+            print("login berhasil sebagai pengguna")
+            pause()
+            while True:
+                clear()
+                print("=== MENU PENGGUNA ===")
+                print("1. buat reservasi baru")
+                print("2. lihat reservasi saya")
+                print("3. logout")
+                pilihan_user = input("pilih menu (1/2/3): ")
+
+                if pilihan_user == "1":
+                    clear()
+                    print("=== BUAT RESERVASI BARU ===")
+                    nama = username
+                    tipe = input("masukkan tipe kamar (single/superior/deluxe): ")
+                    tanggal = input("masukkan tanggal reservasi (dd/mm/yyyy): ")
+                    durasi = input("masukkan durasi menginap (hari): ")
+
+                    if cek_kamar_dipesan(tipe, tanggal):
+                        print("maaf, kamar sudah dibooking pada tanggal tersebut")
+                    else:
+                        tambah_reservasi(nama, tipe, tanggal, durasi)
+                        print("reservasi berhasil dibuat")
+                    pause()
+
+                elif pilihan_user == "2":
+                    clear()
+                    print(f"=== RESERVASI {username} ===")
+                    if username in reservasi:
+                        data = reservasi[username]
+                        print(f"Nama: {username}")
+                        print(f"Tipe Kamar: {data['Tipe_Kamar']}")
+                        print(f"Tanggal: {data['Tanggal_Reservasi']}")
+                        print(f"Durasi: {data['Durasi']} hari")
+                    else:
+                        print("belum ada reservasi")
+                    pause()
+
+                elif pilihan_user == "3":
+                    break
+                else:
+                    print("pilihan tidak valid")
+                    pause()
         else:
-            print()
-            kesempatan_login -=1
-            if kesempatan_login == 0:
-                print()
-                print(batas2)
-                print("KESEMPATAN LOGIN TELAH HABIS!!!".center(45)) 
-                print(batas2)
-                input("\nKetuk Enter untuk mengakhiri sesi ...")
-                Login_User = False
-                Login_Admin = False
-                break
-            else:
-                print(f"""
-    Login Gagal, kesempatan anda tinggal {kesempatan_login} silahkan 
-    ulangi kembali atau silahkan login sebagai 'Pengguna Biasa'""")
-                input("\nEnter untuk login ulang ...")  
+            print("login gagal!")
+            pause()
 
-    elif menu == "3":
-        print(batas1)
-        print("DAFTAR SEBAGAI PENGGUNA BARU".center(45))
-        print(batas1)
-        Newusn = input("\nUsername : ")
-        Newpas = input("\nPassword : ")
-        Pengguna_Baru.append(Newusn)
-        Pengguna_Baru.append(Newpas)
-        print(f"Pengguna dengan username {Newusn} telah terdaftar")
-        input("\nTekan Enter untuk melakukan Login pada Menu ...")
+    elif pilih == "3":
+        clear()
+        print("=== REGISTER ===")
+        username = input("masukkan username baru: ")
+        if username in akun:
+            print("username sudah ada!")
+        else:
+            password = input("masukkan password baru: ")
+            akun[username] = {"username": username, "password": password, "role": "pengguna"}
+            print("registrasi berhasil")
+        pause()
+
+    elif pilih == "4":
+        print("Terima kasih telah menggunakan sistem reservasi!")
+        break
 
     else:
-        print("Pilihan tersebut tidak ada, silahkan pilih pilihan yang tepat!")
-        input("\nKetuk Enter untuk kembali ke Menu!!")
-        
-
-while True:
-    if Login_User:
-        while Login_User:
-            os.system('cls')
-            print(batas1)
-            print("PILIH MENU YANG ANDA INGINKAN".center(45))
-            print(batas1)
-            print("""
-    [1] Lihat Daftar Anime
-    [2] Memberikan Donasi
-    [3] Keluar sistem
-            """)
-            pilihan_user= input("\nSilahkan masukkan menu yang anda pilih : ")
-
-            if pilihan_user == "1":
-                os.system('cls')
-                print(batas1)
-                print(f"BERIKUT DAFTAR ANIME MUSIM INI!!!".center(45))
-                print(batas1)
-                print()
-                for i in range(len(daftar_anime)):
-                    print(f"{i + 1}. {daftar_anime[i]}")
-                input("\nEnter untuk kembali ke Menu ...")
-
-            elif pilihan_user == "2":
-                os.system('cls')
-                print(batas1)
-                print("MEMBERIKAN DONASI".center(45))
-                print(batas1)
-                print("""\n
-        1) Donasi coklat batang 1$
-        2) Donasi cake coklat 5$""")
-                donasi = input("\nIngin donasi yang mana : ")
-                jumlah = int(input("\nMasukkan jumlah yang ingin anda donasikan : "))
-                if donasi == "1":
-                    kalkulator = jumlah*1
-                elif donasi == "2":
-                    kalkulator = jumlah*5
-                else:
-                    input("\nBerikan Donasi sesuai pilihan ya!!!")
-                    break
-                print(f"\nTotal donasi anda ialah : {kalkulator}")
-                print("""
-    Terima Kasih atas donasi yang Anda berikan untuk program
-    ini, kami akan menggunakannya dengan baik""")
-                input("Tekan Enter untuk kembali...")
-                
-
-
-            elif pilihan_user == "3":
-                input("\nTekan tombol Enter ...")
-                Login_User = False
-                break
-
-            else:
-                print("Mohon Maaf Pilihan Tidak Tersedia")
-                input("\nSilahkan tekan Enter ...")
-        
-
-    elif Login_Admin:
-        while Login_Admin:
-            os.system('cls')
-            print(batas1)
-            print("PILIH MENU YANG ADMIN INGINKAN".center(45))
-            print(batas1)
-            print()
-            print(""" 
-    [1] Lihat Daftar Anime
-    [2] Tambah Judul Anime
-    [3] Edit Daftar Anime
-    [4] Hapus Judul Anime 
-    [5] Keluar Program""")
-            pilihan_admin = input("\nOke masukkan pilihanmu : ")
-
-            if pilihan_admin == "1":
-                os.system('cls')
-                print(batas1)
-                print(f"BERIKUT DAFTAR ANIME MUSIM INI!!!".center(45))
-                print(batas1)
-                print()
-                for i in range(len(daftar_anime)):
-                    print(f"{i + 1}. {daftar_anime[i]}")
-                input("\nEnter untuk kembali ke Menu ...")
-
-            elif pilihan_admin == "2":
-                os.system('cls')
-                print(batas1)
-                print("MENAMBAHKAN JUDUL ANIME".center(45))
-                print(batas1)
-                print()
-                NewJudul_Anime = input("Masukkan judul anime baru : ")
-                daftar_anime.append(NewJudul_Anime)
-                print(f"\nAnime {NewJudul_Anime} berhasil dimasukkan ke daftar!")
-                input("\nKembali ke Menu ...")
-
-            elif pilihan_admin == "3":
-                os.system('cls')
-                print(batas1)
-                print("MENGEDIT DAFTAR ANIME".center(45))
-                print(batas1)
-                print()
-                for i in range(len(daftar_anime)):
-                    print(f"{i+1}. {daftar_anime[i]}")
-                edit_nom = int(input("\nMasukkan nomor dari Daftar yang ingin diedit : ")) -1
-                if 0 <= edit_nom < len(daftar_anime):
-                    new_judul = input("Masukkan judul baru : ")
-                    daftar_anime[edit_nom] = new_judul
-                    print(f"\nAnime no {daftar_anime[edit_nom]} berhasil diubah menjadi {new_judul}")
-                else:
-                    print("\nNomor tersebut tidak ada dalam daftar")
-                input("\nKembali ke Menu ...")
-
-
-            elif pilihan_admin == "4":
-                os.system('cls')
-                print(batas1)
-                print("MENGHAPUS JUDUL ANIME DARI DAFTAR".center(45))
-                print(batas1)
-                print()
-                for i in range(len(daftar_anime)):
-                    print(f"{i+1}. {daftar_anime[i]}")
-                hapus_nom = int(input("\nMasukkan nomor dari daftar yang ingin dihapus : ")) - 1
-                if 0 <= hapus_nom < len(daftar_anime):
-                    hapus_judul = daftar_anime.pop(hapus_nom)
-                    print(f"\n{hapus_judul} telah di hapus")   
-                else:
-                    print("\nNomor tersebut tidak ada dalam daftar")
-                input("\nKembali ke Menu ...")
-
-            elif pilihan_admin == "5":
-                input("\nTekan Enter untuk keluar ...")
-                Login_Admin = False
-                break
-
-            else:
-                print("\nPilihan Menu Tidak Ada")
-                input("\nKlik Enter untuk kembali ke Menu")
-
-    else:           
-        os.system('cls')
-        print()
-        print(batas1)
-        print("PROGRAM SELESAI".center(45))
-        print("TERIMA KASIH ATAS KUNJUNGANNYA".center(45))
-        print(batas1)
-        break
+        print("pilihan tidak valid! masukkan 1/2/3/4")
+        pause()

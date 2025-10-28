@@ -42,7 +42,7 @@ while True:
             print("5. cari data reservasi")
             print("6. filter berdasarkan tanggal")
             print("7. keluar")
-            pilihan_admin = input("pilih menu (1/2/3/4/5): ")
+            pilihan_admin = input("pilih menu (1/2/3/4/5/6/7): ")
 
     #create
             if pilihan_admin == "1":
